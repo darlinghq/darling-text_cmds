@@ -1,0 +1,82 @@
+project(text_cmds)
+
+cmake_minimum_required(VERSION 2.4.0)
+
+if(COMMAND cmake_policy)
+	cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+
+include(darling_exe)
+add_definitions(-DTARGET_OS_MAC=1)
+add_definitions(-D__APPLE__ -D__DYNAMIC__)
+# add_definitions(-DSUPPORT_UTMPX)
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -U_POSIX_C_SOURCE -D__DARWIN_UNIX03 -nostdinc -fblocks -fPIC -ggdb -O0")
+set(CMAKE_EXE_LINKER_FLAGS "-nodefaultlibs -nostdlib -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
+#set(CMAKE_SHARED_LINKER_FLAGS "-nodefaultlibs -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
+
+include_directories(${DARLING_TOP_DIRECTORY}/src/libc/include/FreeBSD)
+include_directories(${DARLING_TOP_DIRECTORY}/src/libc/include/NetBSD)
+include_directories(${DARLING_TOP_DIRECTORY}/src/libc/gen)
+include_directories(${DARLING_TOP_DIRECTORY}/src/libc/darwin)
+include_directories(${DARLING_TOP_DIRECTORY}/src/libc/stdtime/FreeBSD)
+include_directories(${DARLING_TOP_DIRECTORY}/src/launchd/liblaunch)
+include_directories(${DARLING_TOP_DIRECTORY}/src/external/libdispatch)
+include_directories(${DARLING_TOP_DIRECTORY}/src/libinfo/membership.subproj)
+include_directories(${DARLING_TOP_DIRECTORY}/src/copyfile)
+include_directories(${DARLING_TOP_DIRECTORY}/src/libutil)
+include_directories(${DARLING_TOP_DIRECTORY}/src/external/zlib)
+include_directories(${DARLING_TOP_DIRECTORY}/src/external/bzip2)
+include_directories(${DARLING_TOP_DIRECTORY}/src/CommonCrypto)
+include_directories(${DARLING_TOP_DIRECTORY}/src/libremovefile)
+include_directories(${DARLING_TOP_DIRECTORY}/src/ncurses/include)
+
+#add_definitions(-DHAVE_INTTYPES_H -DHAVE_STDINT_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_TIME_H)
+
+include(InstallSymlink)
+set(BINARY_PACKAGING_MODE ON)
+
+add_darling_executable(banner banner/banner.c)
+add_darling_executable(cat cat/cat.c)
+add_darling_executable(col col/col.c)
+add_darling_executable(colrm colrm/colrm.c)
+add_darling_executable(column column/column.c)
+add_darling_executable(comm comm/comm.c)
+add_darling_executable(csplit csplit/csplit.c)
+add_darling_executable(cut cut/cut.c)
+add_darling_executable(ed ed/buf.c ed/cbc.c ed/glbl.c ed/io.c ed/main.c ed/re.c ed/sub.c ed/undo.c)
+add_darling_executable(expand expand/expand.c)
+add_darling_executable(fmt fmt/fmt.c)
+add_darling_executable(fold fold/fold.c)
+add_darling_executable(head head/head.c)
+add_darling_executable(join join/join.c)
+add_darling_executable(lam lam/lam.c)
+add_darling_executable(look look/look.c)
+#add_darling_executable(md5 md5/md5.c)
+add_darling_executable(nl nl/nl.c)
+add_darling_executable(paste paste/paste.c)
+add_darling_executable(pr pr/egetopt.c pr/pr.c)
+add_darling_executable(rev rev/rev.c)
+add_darling_executable(rs rs/rs.c)
+add_darling_executable(sed sed/compile.c sed/main.c sed/misc.c sed/process.c)
+#add_darling_executable(sort sort/calloc.c sort/error.c sort/fopen-safer.c sort/getopt.c sort/long-options.c sort/physmem.c sort/quote.c sort/umaxtostr.c sort/version-etc-fsf.c sort/xmemcoll.c sort/xstrtoumax.c sort/closeout.c sort/exitfail.c sort/__fpending.c sort/hard-locale.c sort/memcoll.c sort/posixver.c sort/sort.c sort/version.c sort/xalloc-die.c sort/xstrtod.c sort/dup-safer.c sort/fd-safer.c sort/getopt1.c sort/inttostr.c sort/mkstemp-safer.c sort/quotearg.c sort/strnumcmp.c sort/version-etc.c sort/xmalloc.c  sort/xstrtol.c)
+#SET_TARGET_PROPERTIES(sort PROPERTIES COMPILE_DEFINITIONS "HAVE_CONFIG_H;HAVE_INTTYPES_H;HAVE_STDINT_H")
+#target_include_directories(sort PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/sort")
+add_darling_executable(split split/split.c)
+add_darling_executable(tail tail/tail.c)
+add_darling_executable(tr tr/cmap.c  tr/cset.c  tr/str.c  tr/tr.c)
+add_darling_executable(ul ul/ul.c)
+add_darling_executable(unexpand unexpand/unexpand.c)
+add_darling_executable(uniq uniq/uniq.c)
+add_darling_executable(unvis unvis/unvis.c)
+add_darling_executable(vis vis/vis.c vis/foldit.c)
+add_darling_executable(wc wc/wc.c)
+
+target_link_libraries(tr ncurses)
+
+install(TARGETS cat banner col colrm column comm
+	csplit cut ed expand fmt fold head join lam
+	look nl paste pr rev rs sed split tail tr ul
+	unexpand uniq unvis vis wc
+	DESTINATION libexec/darling/bin)
+
