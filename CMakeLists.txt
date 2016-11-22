@@ -59,9 +59,43 @@ add_darling_executable(pr pr/egetopt.c pr/pr.c)
 add_darling_executable(rev rev/rev.c)
 add_darling_executable(rs rs/rs.c)
 add_darling_executable(sed sed/compile.c sed/main.c sed/misc.c sed/process.c)
-#add_darling_executable(sort sort/calloc.c sort/error.c sort/fopen-safer.c sort/getopt.c sort/long-options.c sort/physmem.c sort/quote.c sort/umaxtostr.c sort/version-etc-fsf.c sort/xmemcoll.c sort/xstrtoumax.c sort/closeout.c sort/exitfail.c sort/__fpending.c sort/hard-locale.c sort/memcoll.c sort/posixver.c sort/sort.c sort/version.c sort/xalloc-die.c sort/xstrtod.c sort/dup-safer.c sort/fd-safer.c sort/getopt1.c sort/inttostr.c sort/mkstemp-safer.c sort/quotearg.c sort/strnumcmp.c sort/version-etc.c sort/xmalloc.c  sort/xstrtol.c)
-#SET_TARGET_PROPERTIES(sort PROPERTIES COMPILE_DEFINITIONS "HAVE_CONFIG_H;HAVE_INTTYPES_H;HAVE_STDINT_H")
-#target_include_directories(sort PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/sort")
+
+add_darling_executable(sort
+	sort/calloc.c
+	sort/__fpending.c
+	sort/closeout.c
+	sort/dup-safer.c
+	sort/error.c
+	sort/exitfail.c
+	sort/fd-safer.c
+	sort/fopen-safer.c
+	sort/getopt.c
+	sort/getopt1.c
+	sort/hard-locale.c
+	sort/long-options.c
+	sort/memcoll.c
+	sort/mkstemp-safer.c
+	sort/physmem.c
+	sort/posixver.c
+	sort/quote.c
+	sort/quotearg.c
+	sort/sort.c
+	sort/strnumcmp.c
+	sort/umaxtostr.c
+	sort/version-etc-fsf.c
+	sort/version-etc.c
+	sort/version.c
+	sort/xalloc-die.c
+	sort/xmalloc.c
+	sort/xmemcoll.c
+	sort/xstrtoumax.c
+	sort/xstrtod.c
+)
+set_target_properties(sort PROPERTIES COMPILE_FLAGS "-Wno-unknown-pragmas -Wno-tautological-compare")
+set_target_properties(sort PROPERTIES COMPILE_DEFINITIONS "HAVE_CONFIG_H")
+# Without the BEFORE it picks up a different config.h before searching this directory
+target_include_directories(sort BEFORE PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/sort")
+
 add_darling_executable(split split/split.c)
 add_darling_executable(tail tail/tail.c tail/forward.c tail/reverse.c tail/misc.c tail/read.c)
 add_darling_executable(tr tr/cmap.c  tr/cset.c  tr/str.c  tr/tr.c)
@@ -76,7 +110,7 @@ target_link_libraries(tr ncurses)
 
 install(TARGETS cat banner col colrm column comm
 	csplit cut ed expand fmt fold head join lam
-	look nl paste pr rev rs sed split tail tr ul
+	look nl paste pr rev rs sed sort split tail tr ul
 	unexpand uniq unvis vis wc
 	DESTINATION libexec/darling/bin)
 
