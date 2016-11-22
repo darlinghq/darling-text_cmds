@@ -80,3 +80,41 @@ install(TARGETS cat banner col colrm column comm
 	unexpand uniq unvis vis wc
 	DESTINATION libexec/darling/bin)
 
+set(man1
+	cat/cat.1
+	col/col.1
+	colrm/colrm.1
+	column/column.1
+	comm/comm.1
+	csplit/csplit.1
+	cut/cut.1
+	ed/ed.1
+	ed/red.1
+	expand/expand.1
+	fmt/fmt.1
+	fold/fold.1
+	head/head.1
+	join/join.1
+	lam/lam.1
+	look/look.1
+	md5/md5.1
+	nl/nl.1
+	paste/paste.1
+	pr/pr.1
+	rev/rev.1
+	rs/rs.1
+	sed/sed.1
+	sort/sort.1
+	split/split.1
+	tail/tail.1
+	tr/tr.1
+	ul/ul.1
+	uniq/uniq.1
+	unvis/unvis.1
+	vis/vis.1
+	wc/wc.1
+)
+
+install(FILES ${man1} DESTINATION libexec/darling/usr/share/man/man1)
+
+install(FILES banner/banner.6 DESTINATION libexec/darling/usr/share/man/man6)
