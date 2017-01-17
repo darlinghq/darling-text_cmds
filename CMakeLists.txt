@@ -22,24 +22,22 @@ add_definitions(
 )
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -U_POSIX_C_SOURCE -D__DARWIN_UNIX03 -nostdinc -fblocks -fPIC -ggdb -O0")
-set(CMAKE_EXE_LINKER_FLAGS "-nodefaultlibs -nostdlib -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
-#set(CMAKE_SHARED_LINKER_FLAGS "-nodefaultlibs -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
 
-include_directories(${DARLING_TOP_DIRECTORY}/src/libc/include/FreeBSD)
-include_directories(${DARLING_TOP_DIRECTORY}/src/libc/include/NetBSD)
-include_directories(${DARLING_TOP_DIRECTORY}/src/libc/gen)
-include_directories(${DARLING_TOP_DIRECTORY}/src/libc/darwin)
-include_directories(${DARLING_TOP_DIRECTORY}/src/libc/stdtime/FreeBSD)
-include_directories(${DARLING_TOP_DIRECTORY}/src/launchd/liblaunch)
-include_directories(${DARLING_TOP_DIRECTORY}/src/external/libdispatch)
-include_directories(${DARLING_TOP_DIRECTORY}/src/libinfo/membership.subproj)
-include_directories(${DARLING_TOP_DIRECTORY}/src/copyfile)
-include_directories(${DARLING_TOP_DIRECTORY}/src/libutil)
-include_directories(${DARLING_TOP_DIRECTORY}/src/external/zlib)
-include_directories(${DARLING_TOP_DIRECTORY}/src/external/bzip2)
-include_directories(${DARLING_TOP_DIRECTORY}/src/CommonCrypto)
-include_directories(${DARLING_TOP_DIRECTORY}/src/libremovefile)
-include_directories(${DARLING_TOP_DIRECTORY}/src/ncurses/include)
+include_directories(${CMAKE_SOURCE_DIR}/src/libc/include/FreeBSD)
+include_directories(${CMAKE_SOURCE_DIR}/src/libc/include/NetBSD)
+include_directories(${CMAKE_SOURCE_DIR}/src/libc/gen)
+include_directories(${CMAKE_SOURCE_DIR}/src/libc/darwin)
+include_directories(${CMAKE_SOURCE_DIR}/src/libc/stdtime/FreeBSD)
+include_directories(${CMAKE_SOURCE_DIR}/src/launchd/liblaunch)
+include_directories(${CMAKE_SOURCE_DIR}/src/external/libdispatch)
+include_directories(${CMAKE_SOURCE_DIR}/src/libinfo/membership.subproj)
+include_directories(${CMAKE_SOURCE_DIR}/src/copyfile)
+include_directories(${CMAKE_SOURCE_DIR}/src/libutil)
+include_directories(${CMAKE_SOURCE_DIR}/src/external/zlib)
+include_directories(${CMAKE_SOURCE_DIR}/src/external/bzip2)
+include_directories(${CMAKE_SOURCE_DIR}/src/CommonCrypto)
+include_directories(${CMAKE_SOURCE_DIR}/src/libremovefile)
+include_directories(${CMAKE_SOURCE_DIR}/src/ncurses/include)
 
 #add_definitions(-DHAVE_INTTYPES_H -DHAVE_STDINT_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_TIME_H)
 
@@ -62,7 +60,7 @@ add_darling_executable(head head/head.c)
 add_darling_executable(join join/join.c)
 add_darling_executable(lam lam/lam.c)
 add_darling_executable(look look/look.c)
-#add_darling_executable(md5 md5/md5.c)
+add_darling_executable(md5 md5/md5.c md5/commoncrypto.c)
 add_darling_executable(nl nl/nl.c)
 add_darling_executable(paste paste/paste.c)
 add_darling_executable(pr pr/egetopt.c pr/pr.c)
@@ -110,6 +108,7 @@ add_darling_executable(split split/split.c)
 add_darling_executable(tail tail/tail.c tail/forward.c tail/reverse.c tail/misc.c tail/read.c)
 add_darling_executable(tr tr/cmap.c  tr/cset.c  tr/str.c  tr/tr.c)
 add_darling_executable(ul ul/ul.c)
+target_link_libraries(ul ncurses)
 add_darling_executable(unexpand unexpand/unexpand.c)
 add_darling_executable(uniq uniq/uniq.c)
 add_darling_executable(unvis unvis/unvis.c)
@@ -118,11 +117,14 @@ add_darling_executable(wc wc/wc.c)
 
 target_link_libraries(tr ncurses)
 
-install(TARGETS cat banner col colrm column comm
-	csplit cut ed expand fmt fold head join lam
-	look nl paste pr rev rs sed sort split tail tr ul
-	unexpand uniq unvis vis wc
+install(TARGETS cat ed
 	DESTINATION libexec/darling/bin)
+install(TARGETS banner col colrm column comm
+	cut csplit expand fold fmt head
+	join lam look md5 nl paste pr rev rs
+	sed sort split tail tr ul unexpand
+	uniq unvis vis wc
+	DESTINATION libexec/darling/usr/bin)
 
 set(man1
 	cat/cat.1
