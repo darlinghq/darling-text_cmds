@@ -1,27 +1,19 @@
 project(text_cmds)
 
-cmake_minimum_required(VERSION 2.4.0)
-
 if(COMMAND cmake_policy)
 	cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
 
-include(darling_exe)
-add_definitions(-DTARGET_OS_MAC=1)
-add_definitions(-D__APPLE__ -D__DYNAMIC__)
+#add_definitions(-DTARGET_OS_MAC=1)
+#add_definitions(-D__APPLE__ -D__DYNAMIC__)
 # add_definitions(-DSUPPORT_UTMPX)
 
-# Hide warnings
 add_definitions(
-	-Wno-incompatible-pointer-types-discards-qualifiers
-	-Wno-format
-	-Wno-format-zero-length
-	-Wno-logical-not-parentheses
-	-Wno-pointer-sign
-	-Wno-parentheses
+	-DSORT_VERSION="text_cmds-99"
 )
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -U_POSIX_C_SOURCE -D__DARWIN_UNIX03 -nostdinc -fblocks -fPIC -ggdb -O0")
+
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -U_POSIX_C_SOURCE -D__DARWIN_UNIX03 -nostdinc -fblocks -fPIC -ggdb -O0")
 
 include_directories(${CMAKE_SOURCE_DIR}/src/libc/include/FreeBSD)
 include_directories(${CMAKE_SOURCE_DIR}/src/libc/include/NetBSD)
@@ -69,36 +61,16 @@ add_darling_executable(rs rs/rs.c)
 add_darling_executable(sed sed/compile.c sed/main.c sed/misc.c sed/process.c)
 
 add_darling_executable(sort
-	sort/calloc.c
-	sort/__fpending.c
-	sort/closeout.c
-	sort/dup-safer.c
-	sort/error.c
-	sort/exitfail.c
-	sort/fd-safer.c
-	sort/fopen-safer.c
-	sort/getopt.c
-	sort/getopt1.c
-	sort/hard-locale.c
-	sort/long-options.c
-	sort/memcoll.c
-	sort/mkstemp-safer.c
-	sort/physmem.c
-	sort/posixver.c
-	sort/quote.c
-	sort/quotearg.c
+	sort/bwstring.c
+	sort/coll.c
+	sort/commoncrypto.c
+	sort/file.c
+	sort/mem.c
+	sort/radixsort.c
 	sort/sort.c
-	sort/strnumcmp.c
-	sort/umaxtostr.c
-	sort/version-etc-fsf.c
-	sort/version-etc.c
-	sort/version.c
-	sort/xalloc-die.c
-	sort/xmalloc.c
-	sort/xmemcoll.c
-	sort/xstrtoumax.c
-	sort/xstrtod.c
+	sort/vsort.c
 )
+
 set_target_properties(sort PROPERTIES COMPILE_FLAGS "-Wno-unknown-pragmas -Wno-tautological-compare")
 set_target_properties(sort PROPERTIES COMPILE_DEFINITIONS "HAVE_CONFIG_H")
 # Without the BEFORE it picks up a different config.h before searching this directory

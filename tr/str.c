@@ -301,7 +301,7 @@ genrange(STR *s, int was_octal)
 		    charcoll((const void *)&cnt, (const void *)&stopval) <= 0)
 			*p++ = cnt;
 	*p = OOBCH;
-	n = p - (int*) s->set;
+	n = p - s->set;
 
 	s->cnt = 0;
 	s->state = SET;
