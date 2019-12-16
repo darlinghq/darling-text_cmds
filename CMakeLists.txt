@@ -10,6 +10,8 @@ endif(COMMAND cmake_policy)
 
 add_definitions(
 	-DSORT_VERSION="text_cmds-99"
+	-DWITHOUT_NLS
+	-D__FBSDID=__RCSID
 )
 
 
