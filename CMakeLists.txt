@@ -15,22 +15,6 @@ add_definitions(
 
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -U_POSIX_C_SOURCE -D__DARWIN_UNIX03 -nostdinc -fblocks -fPIC -ggdb -O0")
 
-include_directories(${CMAKE_SOURCE_DIR}/src/libc/include/FreeBSD)
-include_directories(${CMAKE_SOURCE_DIR}/src/libc/include/NetBSD)
-include_directories(${CMAKE_SOURCE_DIR}/src/libc/gen)
-include_directories(${CMAKE_SOURCE_DIR}/src/libc/darwin)
-include_directories(${CMAKE_SOURCE_DIR}/src/libc/stdtime/FreeBSD)
-include_directories(${CMAKE_SOURCE_DIR}/src/launchd/liblaunch)
-include_directories(${CMAKE_SOURCE_DIR}/src/external/libdispatch)
-include_directories(${CMAKE_SOURCE_DIR}/src/libinfo/membership.subproj)
-include_directories(${CMAKE_SOURCE_DIR}/src/copyfile)
-include_directories(${CMAKE_SOURCE_DIR}/src/libutil)
-include_directories(${CMAKE_SOURCE_DIR}/src/external/zlib)
-include_directories(${CMAKE_SOURCE_DIR}/src/external/bzip2)
-include_directories(${CMAKE_SOURCE_DIR}/src/CommonCrypto)
-include_directories(${CMAKE_SOURCE_DIR}/src/libremovefile)
-include_directories(${CMAKE_SOURCE_DIR}/src/ncurses/include)
-
 #add_definitions(-DHAVE_INTTYPES_H -DHAVE_STDINT_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_TIME_H)
 
 include(InstallSymlink)
