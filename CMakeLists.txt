@@ -7,9 +7,10 @@ endif(COMMAND cmake_policy)
 # add_definitions(-DSUPPORT_UTMPX)
 
 add_definitions(
-	-DSORT_VERSION="text_cmds-99"
+	-DSORT_VERSION="text_cmds-101.40.1"
 	-DWITHOUT_NLS
 	-D__FBSDID=__RCSID
+	-DSORT_THREADS
 )
 
 
