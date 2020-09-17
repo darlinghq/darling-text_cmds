@@ -107,7 +107,7 @@ set(man1
 	rev/rev.1
 	rs/rs.1
 	sed/sed.1
-	sort/sort.1
+	sort/gen/sort.1
 	split/split.1
 	tail/tail.1
 	tr/tr.1
