@@ -91,7 +91,11 @@ struct key_value
 {
 	struct bwstring		*k; /* key string */
 	struct key_hint		 hint[0]; /* key sort hint */
+#ifdef DARLING
+}; // not sure why it's a variable; nobody uses it
+#else
 } __packed;
+#endif
 
 /*
  * Set of keys container object.
